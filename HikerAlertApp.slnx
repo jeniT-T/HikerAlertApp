@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="HikerAlertApp.Library/HikerAlertApp.Library.csproj" />
-  <Project Path="HikerAlertApp/HikerAlertApp.csproj" />
+  <Project Path="HikerAlert/HikerAlert.csproj" Id="6bc63e9f-94c6-451d-b405-c0e1353e66c0" />
+  <Project Path="HikerAlertTest/HikerAlertTest.csproj" Id="5551e222-4e0c-4164-9634-1288c0f462a6" />
 </Solution>
