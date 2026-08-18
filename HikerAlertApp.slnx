@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="HikerAlertApp.Library/HikerAlertApp.Library.csproj" />
   <Project Path="HikerAlertApp/HikerAlertApp.csproj" />
 </Solution>
