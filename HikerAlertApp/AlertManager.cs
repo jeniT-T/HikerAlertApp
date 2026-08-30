@@ -30,9 +30,9 @@ public class AlertManager
         }
     }
 
-    public void SendAlert(SOSAlert alert, NearbyDevice device)
+    public void SendAlert(SOSAlert alert)
     {
-        Console.WriteLine($"\nSending alert to {device.DeviceName}...");
+        Console.WriteLine($"\nSending alert ...");
         Console.WriteLine("SOS Alert successfully forwarded.");
     }
 }
