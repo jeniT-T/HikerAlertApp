@@ -4,14 +4,9 @@ using System.Text;
 
 using HikerAlertApp;
 
-AlertManager alertManager = new AlertManager();
+AlertManager alertManager = new AlertManager();     
 
-List<NearbyDevice> nearbyDevices = new List<NearbyDevice>
-{
-    new NearbyDevice("Hiker Phone A", 15),
-    new NearbyDevice("Hiker Phone B", 40),
-    new NearbyDevice("Emergency Beacon", 75)
-};
+Location deviceCurrentLocation = new Location(34.0522, -1   18.2437);
 
 int nextAlertId = 1;
 
@@ -24,9 +19,8 @@ while (running)
     Console.WriteLine("==========================");
 
     Console.WriteLine("1. Create SOS Alert");
-    Console.WriteLine("2. Find Nearby Devices");
-    Console.WriteLine("3. View SOS Alerts");
-    Console.WriteLine("4. Exit");
+    Console.WriteLine("2. View SOS Alerts");
+    Console.WriteLine("3. Exit");
 
     Console.Write("\nSelect an option: ");
 
@@ -39,14 +33,10 @@ while (running)
             break;
 
         case "2":
-            ShowNearbyDevices();
-            break;
-
-        case "3":
             alertManager.ViewAlerts();
             break;
 
-        case "4":
+        case "3":
             running = false;
             Console.WriteLine("Closing Hiker Alert App...");
             break;
@@ -62,13 +52,8 @@ void CreateSOSAlert()
     Console.Write("\nEnter emergency message: ");
     string message = Console.ReadLine() ?? "Emergency SOS";
 
-    Console.Write("Enter latitude: ");
-    double latitude = Convert.ToDouble(Console.ReadLine());
-
-    Console.Write("Enter longitude: ");
-    double longitude = Convert.ToDouble(Console.ReadLine());
-
-    Location location = new Location(latitude, longitude);
+    Location location = deviceCurrentLocation;
+    Console.WriteLine($"Using current device location: {location}");
 
     SOSAlert alert = new SOSAlert(
         nextAlertId,
@@ -82,32 +67,5 @@ void CreateSOSAlert()
 
     alert.DisplayAlert();
 
-    Console.WriteLine("\nSearching for nearby devices...");
-
-    if (nearbyDevices.Count > 0)
-    {
-        NearbyDevice closestDevice = nearbyDevices
-            .OrderBy(device => device.Distance)
-            .First();
-
-        Console.WriteLine(
-            $"Nearby device found: {closestDevice.DeviceName}"
-        );
-
-        alertManager.SendAlert(alert, closestDevice);
-    }
-    else
-    {
-        Console.WriteLine("No nearby devices found.");
-    }
-}
-
-void ShowNearbyDevices()
-{
-    Console.WriteLine("\n===== NEARBY DEVICES =====");
-
-    foreach (NearbyDevice device in nearbyDevices)
-    {
-        device.DisplayDevice();
-    }
+    
 }
