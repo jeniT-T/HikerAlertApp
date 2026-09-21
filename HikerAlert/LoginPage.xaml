@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HikerAlert.LoginPage"
+             Shell.NavBarIsVisible="False"
+             Title="LoginPage">
+
+    <Grid>
+        <!--The background of the login page-->
+        <Image Source="cosmos_1037624851.jpeg"
+               Aspect="AspectFill"
+               Opacity="0.8"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill"
+               />
+
+        <VerticalStackLayout Spacing="25"
+                             Padding="30,0"
+                             VerticalOptions="Center">
+
+            <VerticalStackLayout>
+                <Label Text="Welcome to HikerAlert"
+                       FontSize="30"
+                       HorizontalOptions="Center">
+                </Label>
+                <Label Text="Log in to your account"
+                       FontSize="25"
+                       HorizontalOptions="Center">
+
+                </Label>
+            </VerticalStackLayout>
+            <StackLayout>
+                <Border Padding="0" 
+                        Margin="-20,0,0,0" 
+                        Stroke="white" 
+                        
+                        HorizontalOptions="Fill"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10">
+                    <Label Text="Email"
+                           HorizontalOptions="Center"
+                           TextColor="Grey"></Label>
+                </Border>
+                
+            </StackLayout>
+            
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>
