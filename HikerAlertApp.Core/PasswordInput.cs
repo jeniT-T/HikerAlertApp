@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HikerAlertApp.Core
 {
     public sealed class PasswordInput
-    {   
+    {
         public string Password { get; set; } = string.Empty;
     }
 
     public sealed class Authenticator
     {
         // At least 8 chars, one uppercase, one digit and one special character
-        private static readonly Regex PasswordRegex = new(@"^(?=.{8,}$)(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).*", RegexOptions.Compiled);
-
         public Task<bool> AuthenticateAsync(string email, string password)
         {
             if (!IsValidEmail(email) || !IsValidPassword(password))
@@ -40,7 +33,7 @@ namespace HikerAlertApp.Core
             if (string.IsNullOrEmpty(password))
                 return false;
 
-            return PasswordRegex.IsMatch(password);
+            return PasswordPolicy.IsValid(password);
         }
 
         // Overload that accepts a credentials DTO and validates via data annotations
