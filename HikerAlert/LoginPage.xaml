@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HikerAlert.LoginPage"
+             Shell.NavBarIsVisible="False"
+             Title="LoginPage">
+
+    <Grid>
+        <!--The background of the login page-->
+        <Image Source="cosmos_1037624851.jpeg"
+               Aspect="AspectFill"
+               Opacity="0.7"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill"
+               />
+
+        <VerticalStackLayout Spacing="25"
+                             Padding="30,0"
+                             VerticalOptions="Center">
+
+            <VerticalStackLayout>
+                <Label Text="Welcome to HikerAlert"
+                       TextColor="#e44d2e"
+                       FontSize="30"
+                       HorizontalOptions="Center">
+                </Label>
+                <Label Text="Log in to your account"
+                       TextColor="#f3e5ab"
+                       FontSize="22"
+                       HorizontalOptions="Center">
+
+                </Label>
+            </VerticalStackLayout>
+            <StackLayout Spacing="20">
+                
+                <!--The border box for the email-->
+                <Border Padding="15,0" 
+                        Margin="0,0,0,0" 
+                        Stroke="#fff6d6" 
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10">
+                    <Entry Placeholder="Email"
+                           PlaceholderColor="white"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center"
+                           Keyboard="Email"
+                           TextColor="#f3e5ab"
+                           ></Entry>
+
+                </Border>
+
+                <!--The border box for the password-->
+                <Border Padding="15,0" 
+                    Margin="0,0,0,0" 
+                    Stroke="#fff6d6" 
+                    HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10">
+                        <Entry Placeholder="Password"
+                               PlaceholderColor="White"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Center"
+                               Keyboard="Text"
+                               IsPassword="True"
+                               TextColor="#f3e5ab"
+                         ></Entry>
+                </Border>
+
+                <Button Text="Log In"
+                        FontSize="20"
+                        Margin="0, 10, 0, 0"
+                        HeightRequest="50"
+                        WidthRequest="250"
+                        CornerRadius="25"
+                        TextColor="#f3e5ab"
+                        BackgroundColor="#e44d2e"
+                        Clicked="OnLoginClick"
+                        >
+                </Button>
+
+                <Button BackgroundColor="Transparent" 
+                        Text="Forgot Password"
+                        TextColor="#bc6a4f"></Button>
+
+                <HorizontalStackLayout HorizontalOptions="Center"
+                                     Spacing="5"
+                                     >
+                    <Label Text="Don't have an account? " 
+                           TextColor="LightGray"
+                           VerticalOptions="Center">
+                    </Label>
+                    <Button Text="Sign Up" 
+                            BackgroundColor="Transparent"
+                            TextColor="AntiqueWhite"
+                            FontAttributes="Bold"
+                            Clicked="OnSignUpClicked"></Button>
+                      
+                </HorizontalStackLayout>
+
+            </StackLayout>
+
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>
