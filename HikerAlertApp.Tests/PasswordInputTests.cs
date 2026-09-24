@@ -16,6 +16,21 @@ namespace HikerAlertApp.Tests
         }
 
         [TestMethod]
+        public async Task Authenticator_Rejects_Whitespace_Email_Or_Password_StringOverload()
+        {
+            var auth = new Authenticator();
+
+            var r1 = await auth.AuthenticateAsync("   ", "A1bcd!ef");
+            Assert.IsFalse(r1);
+
+            var r2 = await auth.AuthenticateAsync("user@example.com", "   ");
+            Assert.IsFalse(r2);
+
+            var r3 = await auth.AuthenticateAsync("   ", "   ");
+            Assert.IsFalse(r3);
+        }
+
+        [TestMethod]
         public async Task Authenticator_Rejects_Invalid_Email()
         {
             var auth = new Authenticator();
@@ -72,6 +87,18 @@ namespace HikerAlertApp.Tests
             var good2 = "StrongP@ssw0rd2024!";
             var r2 = await auth.AuthenticateAsync(email, good2);
             Assert.IsTrue(r2);
+        }
+
+        [TestClass]
+        public class CredentialsInputTests
+        {
+            [TestMethod]
+            public void CredentialsInput_Defaults_Are_Empty()
+            {
+                var dto = new CredentialsInput();
+                Assert.AreEqual(string.Empty, dto.Email);
+                Assert.AreEqual(string.Empty, dto.Password);
+            }
         }
     }
 }

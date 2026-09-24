@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace HikerAlertApp.Core
 {
-    // Simple DTO for password input
     public sealed class PasswordInput
     {   
         public string Password { get; set; } = string.Empty;
     }
 
-    // Authenticator without interfaces
     public sealed class Authenticator
     {
         // At least 8 chars, one uppercase, one digit and one special character
@@ -43,6 +41,18 @@ namespace HikerAlertApp.Core
                 return false;
 
             return PasswordRegex.IsMatch(password);
+        }
+
+        // Overload that accepts a credentials DTO and validates via data annotations
+        public Task<bool> AuthenticateAsync(CredentialsInput credentials)
+        {
+            if (credentials is null)
+                return Task.FromResult(false);
+
+            if (!credentials.TryValidate(out var results))
+                return Task.FromResult(false);
+
+            return AuthenticateAsync(credentials.Email, credentials.Password);
         }
     }
 }
