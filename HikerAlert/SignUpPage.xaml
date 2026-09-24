@@ -4,8 +4,120 @@
              x:Class="HikerAlert.SignUpPage"
              Shell.NavBarIsVisible="False"
              Title="SignUpPage">
-    <VerticalStackLayout VerticalOptions="Center">
-        <Label Text="This is the Sign Up Page" HorizontalOptions="Center" />
-        <Button Text="Go Back" Clicked="OnBackClicked" />
-    </VerticalStackLayout>
+
+    <Grid>
+        <!--The background of the login page-->
+        <Image Source="cosmos_1037624851.jpeg"
+           Aspect="AspectFill"
+           Opacity="0.7"
+           HorizontalOptions="Fill"
+           VerticalOptions="Fill"
+           />
+
+        <VerticalStackLayout Spacing="25"
+                         Padding="30,0"
+                         VerticalOptions="Center">
+
+            <VerticalStackLayout>
+                <Label Text="Sign Up"
+                   TextColor="#e44d2e"
+                   FontSize="30"
+                   HorizontalOptions="Center">
+                </Label>
+                <Label Text="Create a new account"
+                   TextColor="#f3e5ab"
+                   FontSize="22"
+                   HorizontalOptions="Center">
+
+                </Label>
+            </VerticalStackLayout>
+            <StackLayout Spacing="20">
+
+                <!--The border box for the email-->
+                <Border Padding="15,0" 
+                    Margin="0,0,0,0" 
+                    Stroke="#fff6d6" 
+                    HeightRequest="50"
+                    HorizontalOptions="Fill"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 10">
+                    <Entry Placeholder="Email"
+                       PlaceholderColor="white"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Center"
+                       Keyboard="Email"
+                       TextColor="#f3e5ab"
+                       ></Entry>
+
+                </Border>
+
+                <!--The border box for the password-->
+                <Border Padding="15,0" 
+                Margin="0,0,0,0" 
+                Stroke="#fff6d6" 
+                HeightRequest="50"
+                HorizontalOptions="Fill"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 10">
+                    <Entry Placeholder="Password"
+                           PlaceholderColor="White"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center"
+                           Keyboard="Text"
+                           IsPassword="True"
+                           TextColor="#f3e5ab"
+                     ></Entry>
+                </Border>
+
+                <!--The border box for the password-->
+                <Border Padding="15,0" 
+                        Margin="0,0,0,0" 
+                        Stroke="#fff6d6" 
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10">
+                            <Entry Placeholder="Confirm Password"
+                                   PlaceholderColor="White"
+                                   HorizontalOptions="Fill"
+                                   VerticalOptions="Center"
+                                   Keyboard="Text"
+                                   IsPassword="True"
+                                   TextColor="#f3e5ab"
+                            ></Entry>
+                </Border>
+
+                <Button Text="Sign Up"
+                    FontSize="20"
+                    Margin="0, 10, 0, 0"
+                    HeightRequest="50"
+                    WidthRequest="250"
+                    CornerRadius="25"
+                    TextColor="#f3e5ab"
+                    BackgroundColor="#e44d2e"
+                    Clicked="OnSignUpClicked"
+                    >
+                </Button>
+                
+                <HorizontalStackLayout HorizontalOptions="Center"
+                                 Spacing="5"
+                                 >
+                    <Label Text="Have an account? " 
+                       TextColor="LightGray"
+                       VerticalOptions="Center">
+                    </Label>
+                    <Button Text="Login" 
+                        BackgroundColor="Transparent"
+                        TextColor="AntiqueWhite"
+                        FontAttributes="Bold"
+                        Clicked="OnLoginClicked"></Button>
+
+                </HorizontalStackLayout>
+
+            </StackLayout>
+
+        </VerticalStackLayout>
+
+    </Grid>
+
 </ContentPage>
