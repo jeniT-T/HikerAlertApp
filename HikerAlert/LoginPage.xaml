@@ -29,20 +29,17 @@
 
                 </Label>
             </VerticalStackLayout>
-            <StackLayout Spacing="10">
-                <Border Padding="15,0" 
-                        Margin="0,0,0,0" 
+            <StackLayout>
+                <Border Padding="0" 
+                        Margin="-20,0,0,0" 
                         Stroke="white" 
-                        HeightRequest="50"
+                        
                         HorizontalOptions="Fill"
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 10">
-                    <Entry Placeholder="Email"
-                           HorizontalOptions="Fill"
-                           VerticalOptions="Center"
-                           Keyboard="Email"
-                           ></Entry>
-
+                    <Label Text="Email"
+                           HorizontalOptions="Center"
+                           TextColor="Grey"></Label>
                 </Border>
                 
             </StackLayout>
