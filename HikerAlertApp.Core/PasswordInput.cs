@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace HikerAlertApp.Core
 {
@@ -48,4 +50,17 @@ namespace HikerAlertApp.Core
             return AuthenticateAsync(credentials.Email, credentials.Password);
         }
     }
+
+    public sealed class PasswordPolicy
+    {
+        public const int MinimumLength = 8;
+        private static readonly Regex PasswordRegex = new(
+            @"^(?=.{8,}$)(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).*$",
+            RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        public static bool IsValid(string? password)
+        {
+            return !string.IsNullOrWhiteSpace(password)
+                && PasswordRegex.IsMatch(password);
+        }
+    }   
 }
