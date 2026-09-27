@@ -7,8 +7,18 @@ public partial class SignUpPage : ContentPage
 		InitializeComponent();
 	}
 
-    private async void OnBackClicked(object? sender, EventArgs e)
+    
+    private async void OnSignUpClicked(object? sender, EventArgs e)
     {
+        
+        await DisplayAlertAsync("Success", "Account Created!", "OK");
+        await Shell.Current.GoToAsync("MainPage");
+    }
+
+    
+    private async void OnLoginClicked(object? sender, EventArgs e)
+    {
+   
         await Shell.Current.GoToAsync("..");
     }
 }
