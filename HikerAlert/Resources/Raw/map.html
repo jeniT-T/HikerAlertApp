@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>HikerAlert Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .leaflet-control-attribution {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map" aria-label="Map with your location and nearby hiking trails"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([0, 0], 2);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+        }).addTo(map);
+
+        let userMarker = null;
+        const trailMarkers = L.layerGroup().addTo(map);
+
+        window.updateHikerMap = function (location, trails) {
+            const userPosition = [location.latitude, location.longitude];
+
+            if (userMarker === null) {
+                userMarker = L.marker(userPosition, { title: 'You are here' })
+                    .addTo(map)
+                    .bindPopup('You are here');
+            } else {
+                userMarker.setLatLng(userPosition);
+            }
+
+            trailMarkers.clearLayers();
+            (trails || []).forEach(function (trail) {
+                L.marker([trail.latitude, trail.longitude], { title: trail.name })
+                    .bindPopup(trail.name + '<br>Approximate trail location')
+                    .addTo(trailMarkers);
+            });
+
+            map.setView(userPosition, 13);
+            setTimeout(function () { map.invalidateSize(); }, 0);
+        };
+
+        window.hikerMapReady = true;
+    </script>
+</body>
+</html>
