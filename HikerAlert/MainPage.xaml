@@ -4,7 +4,12 @@
              x:Class="HikerAlert.MainPage"
              Shell.NavBarIsVisible="False">
 
-    <Label Text="Hello World"></Label>
+    <VerticalStackLayout Spacing="25"
+                         Padding="0"
+                         >
+              
+              
+    </VerticalStackLayout>
     
 
 </ContentPage>

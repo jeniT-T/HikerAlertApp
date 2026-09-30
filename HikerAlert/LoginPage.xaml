@@ -9,7 +9,7 @@
         <!--The background of the login page-->
         <Image Source="cosmos_1037624851.jpeg"
                Aspect="AspectFill"
-               Opacity="0.7"
+               Opacity="0.5"
                HorizontalOptions="Fill"
                VerticalOptions="Fill"
                />
@@ -83,7 +83,7 @@
 
                 <Button BackgroundColor="Transparent" 
                         Text="Forgot Password"
-                        TextColor="#bc6a4f"></Button>
+                        TextColor="Coral"></Button>
 
                 <HorizontalStackLayout HorizontalOptions="Center"
                                      Spacing="5"
@@ -94,7 +94,7 @@
                     </Label>
                     <Button Text="Sign Up" 
                             BackgroundColor="Transparent"
-                            TextColor="AntiqueWhite"
+                            TextColor="White"
                             FontAttributes="Bold"
                             Clicked="OnSignUpClicked"></Button>
                       
