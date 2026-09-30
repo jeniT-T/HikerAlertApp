@@ -4,12 +4,49 @@
              x:Class="HikerAlert.MainPage"
              Shell.NavBarIsVisible="False">
 
-    <VerticalStackLayout Spacing="25"
-                         Padding="0"
-                         >
-              
-              
-    </VerticalStackLayout>
-    
+    <Grid Padding="30,0" RowSpacing="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label 
+            Grid.Row="0"
+            Text="Welcome to HikerAlert!"
+            SemanticProperties.HeadingLevel="Level1"
+            FontSize="32"
+            HorizontalOptions="Center" />
+
+        <Label 
+            Grid.Row="1"
+            Text="Location"
+            SemanticProperties.HeadingLevel="Level2"
+            FontSize="18"/>
+
+        <Border
+            Grid.Row="2"
+            Stroke="#C9D5C5"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 12">
+            <Grid>
+                <WebView x:Name="MapWebView" />
+
+                <Label x:Name="StatusLabel"
+                       Text="Getting your location..."
+                       BackgroundColor="#CCFFFFFF"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Start"
+                       Margin="12"
+                       Padding="8" />
+            </Grid>
+        </Border>
+        
+        <Button
+            Grid.Row="3"
+            Text="SEND SOS"
+            HorizontalOptions="End" />
+    </Grid>
 
 </ContentPage>
