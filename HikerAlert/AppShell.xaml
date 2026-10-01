@@ -6,9 +6,18 @@
     xmlns:local="clr-namespace:HikerAlert"
     Title="HikerAlert">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage" />
+    <TabBar Shell.TabBarBackgroundColor="White"
+            Shell.TabBarForegroundColor="#247A52"
+            Shell.TabBarUnselectedColor="#77837C">
 
+        <ShellContent
+            Title="Trails"
+            Route="HikingTrailsPage"
+            ContentTemplate="{DataTemplate local:HikingTrailsPage}" />
+
+        <ShellContent
+            Title="Auckland"
+            Route="MainPage"
+            ContentTemplate="{DataTemplate local:MainPage}" />
+    </TabBar>
 </Shell>

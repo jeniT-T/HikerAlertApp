@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HikerAlert.HikingTrailsPage"
+             Title="Nearby Trails"
+             BackgroundColor="#F3F6F2">
+
+    <Grid Padding="16,12"
+          RowSpacing="10"
+          RowDefinitions="Auto,Auto,*">
+
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto">
+            <Label Text="Nearby hiking trails"
+                   FontSize="25"
+                   FontAttributes="Bold"
+                   TextColor="#20352C"
+                   VerticalOptions="Center"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+            <Button x:Name="RefreshButton"
+                    Grid.Column="1"
+                    Text="Refresh"
+                    Padding="12,6"
+                    Clicked="OnRefreshClicked"
+                    SemanticProperties.Hint="Refresh your location, trail distances, and weather" />
+        </Grid>
+
+        <Label x:Name="StatusLabel"
+               Grid.Row="1"
+               Text="Finding your location..."
+               FontSize="13"
+               TextColor="#607268" />
+
+        <CollectionView x:Name="TrailList"
+                        Grid.Row="2"
+                        ItemsSource="{Binding Trails}"
+                        SelectionMode="None"
+                        ItemsLayout="VerticalList">
+
+            <CollectionView.EmptyView>
+                <Label Text="No trail locations are available."
+                       Padding="12"
+                       TextColor="#607268" />
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,0,0,12"
+                            Padding="10"
+                            BackgroundColor="White"
+                            Stroke="#D7E1D8"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 16">
+
+                        <Grid RowDefinitions="170,Auto,Auto,Auto,Auto"
+                              RowSpacing="5">
+
+                            <Image Grid.Row="0"
+                                   Source="{Binding MapImageUrl}"
+                                   Aspect="AspectFill"
+                                   BackgroundColor="#E8ECE9"
+                                   SemanticProperties.Description="Map thumbnail with a red marker at the trail location" />
+
+                            <Label Grid.Row="1"
+                                   Text="© OpenStreetMap contributors"
+                                   FontSize="10"
+                                   TextColor="#607268" />
+
+                            <Label Grid.Row="2"
+                                   Text="{Binding Name}"
+                                   FontSize="19"
+                                   FontAttributes="Bold"
+                                   TextColor="#20352C" />
+
+                            <Label Grid.Row="3"
+                                   Text="{Binding Area}"
+                                   FontSize="13"
+                                   TextColor="#607268" />
+
+                            <Grid Grid.Row="4"
+                                  ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding WeatherText}"
+                                       FontSize="14"
+                                       TextColor="#20352C"
+                                       VerticalOptions="Center" />
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding DistanceText}"
+                                       FontSize="13"
+                                       FontAttributes="Bold"
+                                       TextColor="#247A52"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
