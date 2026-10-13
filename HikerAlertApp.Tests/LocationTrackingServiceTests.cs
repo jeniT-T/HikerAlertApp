@@ -9,6 +9,7 @@ namespace HikerAlertApp.Tests;
 [TestClass]
 public class LocationTrackingServiceTests
 {
+    
     [TestMethod]
     public async Task SaveLocationAsync_WhileOffline_PersistsLatestLocation()
     {
@@ -48,5 +49,5 @@ public class LocationTrackingServiceTests
             cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(SavedLocations.LastOrDefault());
         }
-    }
+    } 
 }

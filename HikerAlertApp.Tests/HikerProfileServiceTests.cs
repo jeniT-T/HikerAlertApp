@@ -6,6 +6,7 @@ namespace HikerAlertApp.Tests;
 [TestClass]
 public class HikerProfileServiceTests
 {
+    
     [TestMethod]
     public async Task SaveAsync_TrimsValuesAndAllowsOmittedFields()
     {
@@ -62,5 +63,5 @@ public class HikerProfileServiceTests
             DeleteCalls++;
             return Task.CompletedTask;
         }
-    }
+    } 
 }

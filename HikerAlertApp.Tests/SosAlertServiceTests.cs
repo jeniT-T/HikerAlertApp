@@ -6,6 +6,7 @@ namespace HikerAlertApp.Tests;
 [TestClass]
 public class SosAlertServiceTests
 {
+    
     [TestMethod]
     public async Task PrepareAndSend_SavesLocationShowsDetailsAndSendsAfterCountdown()
     {
@@ -141,5 +142,5 @@ public class SosAlertServiceTests
             DelayStarted.TrySetResult();
             return Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
         }
-    }
+    } 
 }

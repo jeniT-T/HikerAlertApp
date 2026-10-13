@@ -9,6 +9,7 @@ namespace HikerAlertApp.Tests;
 [TestClass]
 public class RangerDashboardServiceTests
 {
+    
     [TestMethod]
     public async Task GetDashboardAsync_LoadsProfileLocationsAndAlertsForSignedInRanger()
     {
@@ -92,5 +93,5 @@ public class RangerDashboardServiceTests
             QueriedRangerIds.Add(rangerId);
             return Task.FromResult(alerts);
         }
-    }
+    } 
 }

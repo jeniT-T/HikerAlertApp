@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace HikerAlertApp.Core
 {
@@ -21,13 +22,18 @@ namespace HikerAlertApp.Core
         private const int Pbkdf2Iterations = 210_000;
         private const int SaltSize = 16;
         private const int HashSize = 32;
+        private const int MaxFailedLoginAttempts = 10;
 
         private const string LoginFailureMessage =
             "Login failed. Check your email and password, then try again.";
+        private const string LoginWarningMessage =
+            "Login failed. Too many failed login attempts. Please try again later.";
 
         private static readonly Regex PasswordRequirements = new(
             @"^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$",
             RegexOptions.Compiled);
+
+        private int _failedLoginAttempts;
 
         public async Task<AccountOperationResult> SignUpAsync(string? email, string? password)
         {
@@ -71,9 +77,15 @@ namespace HikerAlertApp.Core
                 !string.Equals(normalizedEmail, account.Email, StringComparison.Ordinal) ||
                 !VerifyPassword(password ?? string.Empty, account))
             {
-                return new(false, LoginFailureMessage);
+                var failedAttempts = Interlocked.Increment(ref _failedLoginAttempts);
+                var message = failedAttempts > MaxFailedLoginAttempts
+                    ? LoginWarningMessage
+                    : LoginFailureMessage;
+
+                return new(false, message);
             }
 
+            Interlocked.Exchange(ref _failedLoginAttempts, 0);
             return new(true, "Login successful.");
         }
 

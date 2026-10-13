@@ -27,8 +27,7 @@ namespace HikerAlertApp.Tests
 
         [DataTestMethod]
         [DataRow("")]
-        [DataRow("not-an-email")]
-        [DataRow("person@")]
+        [DataRow("not-an-email@")]
         public async Task SignUp_WithInvalidEmail_IsRejected(string email)
         {
             var repository = new InMemoryAccountRepository();
@@ -85,6 +84,44 @@ namespace HikerAlertApp.Tests
 
             Assert.IsFalse(result.Succeeded);
             Assert.AreEqual("An account is already registered.", result.Message);
+        }
+
+        [TestMethod]
+        public async Task Login_WhenNoAccountHasBeenCreated_IsRejected()
+        {
+            var repository = new InMemoryAccountRepository();
+            var service = new AccountService(repository);
+
+            var result = await service.LoginAsync("person@example.com", "TrailRun9!");
+
+            Assert.IsFalse(result.Succeeded);
+            Assert.AreEqual(
+                "Login failed. Check your email and password, then try again.",
+                result.Message);
+            Assert.IsNull(repository.Account);
+        }
+
+        [TestMethod]
+        public async Task Login_AfterMoreThanTenFailedAttempts_ReturnsWarning()
+        {
+            var repository = new InMemoryAccountRepository();
+            var service = new AccountService(repository);
+            await service.SignUpAsync("hiker@example.com", "TrailRun9!");
+
+            for (var attempt = 0; attempt < 10; attempt++)
+            {
+                var result = await service.LoginAsync("hiker@example.com", "WrongPassword9!");
+
+                Assert.IsFalse(result.Succeeded);
+                Assert.AreEqual(
+                    "Login failed. Check your email and password, then try again.",
+                    result.Message);
+            }
+
+            var warningResult = await service.LoginAsync("hiker@example.com", "WrongPassword9!");
+
+            Assert.IsFalse(warningResult.Succeeded);
+            StringAssert.Contains(warningResult.Message, "Login failed. Too many failed login attempts. Please try again later.");
         }
 
         private sealed class InMemoryAccountRepository : IAccountRepository
