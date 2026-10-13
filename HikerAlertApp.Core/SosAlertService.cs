@@ -100,7 +100,8 @@ public sealed class SosAlertService(
                 cancellationToken);
         }
 
+        // Cancellation is accepted up to this point. Afterward, sending is committed.
         cancellationToken.ThrowIfCancellationRequested();
-        await sender.SendAsync(alert, cancellationToken);
+        await sender.SendAsync(alert, CancellationToken.None);
     }
 }
