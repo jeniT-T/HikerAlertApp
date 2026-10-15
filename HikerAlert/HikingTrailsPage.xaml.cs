@@ -121,15 +121,15 @@ public partial class HikingTrailsPage : ContentPage
 
     private static List<TrailLocation> GetAucklandTrails() =>
     [
-        new("Maungawhau / Mount Eden", "Auckland", -36.8770, 174.7644),
-        new("Auckland Domain", "Central Auckland", -36.8606, 174.7714),
-        new("Cornwall Park / One Tree Hill", "Auckland", -36.9000, 174.7830),
-        new("Long Bay Regional Park", "North Shore", -36.6845, 174.7523),
-        new("Rangitoto Summit Track", "Hauraki Gulf", -36.7870, 174.8620),
-        new("Shakespear Regional Park", "Whangaparāoa Peninsula", -36.6370, 174.8380),
-        new("Wenderholm Regional Park", "Waiwera", -36.5214, 174.7085),
-        new("Hunua Falls Track", "Hunua Ranges", -37.0812, 175.0910),
-        new("Karamatura Track", "Huia, Waitākere Ranges", -37.0057, 174.5543)
+        new("Maungawhau / Mount Eden", "Auckland", -36.8770, 174.7644, "mount_eden.jpg"),
+        new("Auckland Domain", "Central Auckland", -36.8606, 174.7714, "auckland_domain.jpg"),
+        new("Cornwall Park / One Tree Hill", "Auckland", -36.9000, 174.7830, "cornwall_park.jpg"),
+        new("Long Bay Regional Park", "North Shore", -36.6845, 174.7523, "long_bay_regional_park.jpg"),
+        new("Rangitoto Summit Track", "Hauraki Gulf", -36.7870, 174.8620, "rangitoto_summit_track.jpg"),
+        new("Shakespear Regional Park", "Whangaparāoa Peninsula", -36.6370, 174.8380, "shakespear_regional_park.jpg"),
+        new("Wenderholm Regional Park", "Waiwera", -36.5214, 174.7085, "wenderholm_regional_park.jpg"),
+        new("Hunua Falls Track", "Hunua Ranges", -37.0812, 175.0910, "hunua_falls_track.jpg"),
+        new("Karamatura Track", "Huia, Waitākere Ranges", -37.0057, 174.5543, "karamatura_track.jpg")
     ];
 
     private static double CalculateDistanceKm(
@@ -213,7 +213,8 @@ public partial class HikingTrailsPage : ContentPage
         string Name,
         string Area,
         double Latitude,
-        double Longitude);
+        double Longitude,
+        string ImageFileName);
 
     public sealed class TrailCardViewModel : INotifyPropertyChanged
     {
@@ -224,16 +225,9 @@ public partial class HikingTrailsPage : ContentPage
             Location = location;
             Name = location.Name;
             Area = location.Area;
+            ImageFileName = location.ImageFileName;
             DistanceKm = distanceKm;
             DistanceText = $"{distanceKm.ToString("0.0", CultureInfo.InvariantCulture)} km away";
-
-            var latitude = location.Latitude.ToString("F5", CultureInfo.InvariantCulture);
-            var longitude = location.Longitude.ToString("F5", CultureInfo.InvariantCulture);
-
-            MapImageUrl =
-                "https://staticmap.openstreetmap.de/staticmap.php" +
-                $"?center={latitude},{longitude}&zoom=14&size=640x340" +
-                $"&maptype=mapnik&markers={latitude},{longitude},red-pushpin";
         }
 
         internal TrailLocation Location { get; }
@@ -241,7 +235,7 @@ public partial class HikingTrailsPage : ContentPage
         public string Name { get; }
         public string Area { get; }
         public string DistanceText { get; }
-        public string MapImageUrl { get; }
+        public string ImageFileName { get; }
         public double DistanceKm { get; }
 
         public string WeatherText

@@ -53,32 +53,27 @@
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 16">
 
-                        <Grid RowDefinitions="170,Auto,Auto,Auto,Auto"
+                        <Grid RowDefinitions="170,Auto,Auto,Auto"
                               RowSpacing="5">
 
                             <Image Grid.Row="0"
-                                   Source="{Binding MapImageUrl}"
+                                   Source="{Binding ImageFileName}"
                                    Aspect="AspectFill"
                                    BackgroundColor="#E8ECE9"
-                                   SemanticProperties.Description="Map thumbnail with a red marker at the trail location" />
+                                   SemanticProperties.Description="Photo of the hiking trail" />
 
                             <Label Grid.Row="1"
-                                   Text="© OpenStreetMap contributors"
-                                   FontSize="10"
-                                   TextColor="#607268" />
-
-                            <Label Grid.Row="2"
                                    Text="{Binding Name}"
                                    FontSize="19"
                                    FontAttributes="Bold"
                                    TextColor="#20352C" />
 
-                            <Label Grid.Row="3"
+                            <Label Grid.Row="2"
                                    Text="{Binding Area}"
                                    FontSize="13"
                                    TextColor="#607268" />
 
-                            <Grid Grid.Row="4"
+                            <Grid Grid.Row="3"
                                   ColumnDefinitions="*,Auto">
                                 <Label Text="{Binding WeatherText}"
                                        FontSize="14"
