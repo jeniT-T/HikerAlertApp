@@ -11,9 +11,11 @@
     <ShellContent
             Title="Login"
             ContentTemplate="{DataTemplate local:LoginPage}"
-            Route="LoginPage">
-    </ShellContent>
-    <TabBar>
+            Route="LoginPage"/>
+
+    <TabBar Shell.TabBarBackgroundColor="White"
+            Shell.TabBarForegroundColor="#247A52"
+            Shell.TabBarUnselectedColor="#77837C">
         <ShellContent
             Title="Home"
             ContentTemplate="{DataTemplate local:MainPage}"
@@ -23,20 +25,15 @@
             Title="Tools"
             ContentTemplate="{DataTemplate local:ToolsPage}"
             Route="ToolsPage" />
-        
-    </TabBar>
-    <TabBar Shell.TabBarBackgroundColor="White"
-            Shell.TabBarForegroundColor="#247A52"
-            Shell.TabBarUnselectedColor="#77837C">
 
         <ShellContent
             Title="Trails"
             Route="HikingTrailsPage"
             ContentTemplate="{DataTemplate local:HikingTrailsPage}" />
 
-        <ShellContent
+        <!--<ShellContent
             Title="Auckland"
             Route="MainPage"
-            ContentTemplate="{DataTemplate local:MainPage}" />
+            ContentTemplate="{DataTemplate local:MainPage}" />-->
     </TabBar>
 </Shell>
