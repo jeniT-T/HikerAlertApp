@@ -1,5 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+<<<<<<< HEAD
+﻿using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Storage;
+=======
+﻿using Microsoft.Extensions.Logging;
+>>>>>>> parent of 442e314 (simple SOS alert button)
 
 namespace HikerAlert
 {
@@ -8,6 +14,7 @@ namespace HikerAlert
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -17,15 +24,10 @@ namespace HikerAlert
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
         }
-    }
-
-    static class Constants
-    {
-        public const string RangerSosEndpoint = "https://your-ranger-api.example/sos";
     }
 }

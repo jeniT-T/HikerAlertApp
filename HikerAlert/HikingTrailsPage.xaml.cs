@@ -274,21 +274,4 @@ public partial class HikingTrailsPage : ContentPage
         [JsonPropertyName("weather_code")]
         public int WeatherCode { get; set; }
     }
-
-    private async void OnSosClicked(object sender, EventArgs e)
-    {
-        // Present a simple choice and confirm the SOS alert.
-        var choice = await DisplayActionSheet(
-            "Create SOS alert",
-            "Cancel",
-            null,
-            "Injury",
-            "Lost",
-            "Other");
-
-        if (string.IsNullOrEmpty(choice) || choice == "Cancel")
-            return;
-
-        await DisplayAlert("SOS", $"SOS alert created: {choice}", "OK");
-    }
 }

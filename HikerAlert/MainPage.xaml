@@ -115,22 +115,5 @@
                        HorizontalTextAlignment="Center" />
             </Grid>
         </Border>
-
-        <!-- SOS Button -->
-        <Button Grid.Row="2"
-                Text="SOS"
-                WidthRequest="72"
-                HeightRequest="56"
-                Margin="16"
-                Padding="12,6"
-                CornerRadius="28"
-                BackgroundColor="#C62828"
-                TextColor="White"
-                FontAttributes="Bold"
-                HorizontalOptions="Start"
-                VerticalOptions="End"
-                ZIndex="10"
-                Clicked="OnSosClicked"
-                SemanticProperties.Hint="Choose an emergency type and create an SOS alert" />
     </Grid>
 </ContentPage>

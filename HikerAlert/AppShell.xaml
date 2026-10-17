@@ -4,8 +4,27 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:HikerAlert"
+    Shell.FlyoutBehavior="Disabled"
     Title="HikerAlert">
 
+
+    <ShellContent
+            Title="Login"
+            ContentTemplate="{DataTemplate local:LoginPage}"
+            Route="LoginPage">
+    </ShellContent>
+    <TabBar>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+
+        <ShellContent
+            Title="Tools"
+            ContentTemplate="{DataTemplate local:ToolsPage}"
+            Route="ToolsPage" />
+        
+    </TabBar>
     <TabBar Shell.TabBarBackgroundColor="White"
             Shell.TabBarForegroundColor="#247A52"
             Shell.TabBarUnselectedColor="#77837C">
