@@ -6,7 +6,7 @@ using HikerAlertApp;
 
 AlertManager alertManager = new AlertManager();     
 
-Location deviceCurrentLocation = new Location(34.0522, -1   18.2437);
+Location deviceCurrentLocation = new Location(34.0522, -118.2437);
 
 int nextAlertId = 1;
 
