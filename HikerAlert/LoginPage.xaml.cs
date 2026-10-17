@@ -21,7 +21,7 @@ public partial class LoginPage : ContentPage
     }
 
     // Matches Clicked="OnLoginClick" in XAML
-    private async void OnLoginClick(object? sender, EventArgs e)
+    private async void OnLoginClick(object sender, EventArgs e)
     {
         // Use // to go to the root of the app (Home)
         await Shell.Current.GoToAsync("MainPage");
