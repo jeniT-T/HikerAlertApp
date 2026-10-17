@@ -1,7 +1,9 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HikerAlert.Core/HikerAlert.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HikerAlert.Core.Tests/HikerAlert.Core.Tests.csproj" />
+  </Folder>
   <Project Path="HikerAlert/HikerAlert.csproj" Id="d33c1a44-7fb1-4955-a562-91294e4ee6cb" />
-  <Project Path="HikerAlertApp.test/HikerAlertApp.test.csproj" Id="bc1cdce0-b334-413a-9652-15541ceb6a33" />
-  <Project Path="HikerAlertApp/HikerAlertApp.csproj">
-    <BuildDependency Project="HikerAlertApp.test/HikerAlertApp.test.csproj" />
-  </Project>
 </Solution>
