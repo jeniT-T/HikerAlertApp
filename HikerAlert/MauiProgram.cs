@@ -1,6 +1,7 @@
 ﻿using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Storage;
 
 namespace HikerAlert
 {
@@ -24,5 +25,10 @@ namespace HikerAlert
 
             return builder.Build();
         }
+    }
+
+    static class Constants
+    {
+        public const string RangerSosEndpoint = "https://your-ranger-api.example/sos";
     }
 }

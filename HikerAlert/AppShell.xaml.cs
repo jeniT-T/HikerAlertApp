@@ -1,10 +1,10 @@
-﻿namespace HikerAlert
+﻿namespace HikerAlert;
+
+public partial class AppShell : Shell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         }
