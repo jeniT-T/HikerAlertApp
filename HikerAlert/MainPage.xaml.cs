@@ -333,4 +333,66 @@ public partial class MainPage : ContentPage
         [JsonPropertyName("weather_code")]
         public int WeatherCode { get; set; }
     }
+
+    // Add inside the MainPage class; add the same handler inside HikingTrailsPage.
+    private async void OnSosClicked(object sender, EventArgs e)
+    {
+        var urgency = await DisplayActionSheetAsync(
+            "What kind of help do you need?",
+            "Cancel",
+            null,
+            "Lost",
+            "Medical emergency",
+            "Police assistance",
+            "Injured / unable to walk",
+            "Other");
+
+        if (string.IsNullOrWhiteSpace(urgency) || urgency == "Cancel")
+        {
+            return;
+        }
+
+        var confirmed = await DisplayAlertAsync(
+            "Send SOS?",
+            $"Create an alert for: {urgency}?",
+            "Send SOS",
+            "Cancel");
+
+        if (!confirmed)
+        {
+            return;
+        }
+
+        var button = sender as Button;
+        if (button is not null)
+        {
+            button.IsEnabled = false;
+        }
+
+        try
+        {
+            var sent = await SosAlertService.SubmitAsync(urgency);
+
+            await DisplayAlertAsync(
+                sent ? "SOS sent" : "SOS saved on this device",
+                sent
+                    ? "The ranger service accepted the alert."
+                    : "Delivery has not been confirmed. The alert is queued on this device and will retry when connectivity returns.",
+                "OK");
+        }
+        catch
+        {
+            await DisplayAlertAsync(
+                "SOS could not be saved",
+                "The alert was not saved. Try again if it is safe to do so.",
+                "OK");
+        }
+        finally
+        {
+            if (button is not null)
+            {
+                button.IsEnabled = true;
+            }
+        }
+    }
 }
