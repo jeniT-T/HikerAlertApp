@@ -1,40 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace HikerAlertApp.Core;
 
-public sealed class SosAlertService
+public enum EmergencyLevel
 {
-    private readonly ILocationProvider _locationProvider;
+    Lost,
+    Injured,
+    LifeThreatening,
+    Other
+}
 
-    public SosAlertService(ILocationProvider locationProvider)
-    {
-        _locationProvider = locationProvider ?? throw new ArgumentNullException(nameof(locationProvider));
-    }
+public sealed record WeatherSummary(string Description, double TemperatureCelsius);
 
-    public async Task<SosAlert> CreateAsync(
-        SosAlertInput input,
+public sealed record SosAlert(
+    EmergencyLevel Emergency,
+    string? Notes,
+    Location Location,
+    WeatherSummary? Weather);
+
+public interface ICurrentLocationProvider
+{
+    Task<Location> GetCurrentAsync(CancellationToken cancellationToken = default);
+}
+
+
+public interface IWeatherProvider
+{
+    Task<WeatherSummary?> GetCurrentAsync(
+        Location location,
+        CancellationToken cancellationToken = default);
+}
+
+public interface ISosAlertSender
+{
+    Task SendAsync(SosAlert alert, CancellationToken cancellationToken = default);
+}
+
+public interface ISosCountdownDelay
+{
+    Task DelayAsync(TimeSpan delay, CancellationToken cancellationToken = default);
+}
+
+public sealed class SosAlertService(
+    ICurrentLocationProvider locationProvider,
+    ILastKnownLocationStore locationStore,
+    IWeatherProvider weatherProvider,
+    ISosAlertSender sender,
+    ISosCountdownDelay countdownDelay)
+{
+    public async Task<SosAlert> PrepareAsync(
+        EmergencyLevel emergency,
+        string? notes,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(input);
+        if (!Enum.IsDefined(emergency))
+            throw new ArgumentOutOfRangeException(nameof(emergency));
 
-        if (!Enum.IsDefined(input.EmergencyLevel))
+        var location = await locationProvider.GetCurrentAsync(cancellationToken);
+        await locationStore.SaveAsync(location, cancellationToken);
+
+        WeatherSummary? weather;
+        try
         {
-            throw new ArgumentOutOfRangeException(nameof(input), "Emergency level is not valid.");
+            weather = await weatherProvider.GetCurrentAsync(location, cancellationToken);
         }
-
-        var location = await _locationProvider.GetCurrentLocationAsync(cancellationToken);
-
-        if (location is null ||
-            !double.IsFinite(location.Latitude) ||
-            location.Latitude is < -90 or > 90 ||
-            !double.IsFinite(location.Longitude) ||
-            location.Longitude is < -180 or > 180)
+        catch (OperationCanceledException)
         {
-            throw new InvalidOperationException("The location provider returned invalid coordinates.");
+            throw;
+        }
+        catch
+        {
+            // Weather is helpful, but a weather-service failure must not block an SOS.
+            weather = null;
         }
 
         return new SosAlert(
-            input.EmergencyLevel,
-            input.Notes,
+            emergency,
+            string.IsNullOrWhiteSpace(notes) ? null : notes.Trim(),
             location,
-            DateTimeOffset.UtcNow);
+            weather);
+    }
+
+    public async Task SendAfterCountdownAsync(
+        SosAlert alert,
+        IProgress<int>? countdown = null,
+        CancellationToken cancellationToken = default)
+    {
+        for (var secondsRemaining = 10; secondsRemaining > 0; secondsRemaining--)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            countdown?.Report(secondsRemaining);
+
+            await countdownDelay.DelayAsync(
+                TimeSpan.FromSeconds(1),
+                cancellationToken);
+        }
+
+        // Cancellation is accepted up to this point. Afterward, sending is committed.
+        cancellationToken.ThrowIfCancellationRequested();
+        await sender.SendAsync(alert, CancellationToken.None);
     }
 }
