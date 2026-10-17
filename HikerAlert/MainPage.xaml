@@ -6,122 +6,93 @@
              Shell.NavBarIsVisible="False"
              BackgroundColor="#F3F6F2">
 
-    <Grid Padding="18,12"
-          RowSpacing="12"
-          RowDefinitions="Auto,Auto,*">
+    <Grid RowDefinitions="Auto,*"
+          Padding="20,16">
 
-        <Label Grid.Row="0"
-               Text="HikerAlert"
-               FontSize="28"
-               FontAttributes="Bold"
-               TextColor="#20352C"
-               SemanticProperties.HeadingLevel="Level1" />
-
-        <!-- Location and weather panel -->
-        <Border Grid.Row="1"
-                Padding="16"
-                BackgroundColor="White"
-                Stroke="#D7E1D8"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 16">
-
-            <Grid ColumnDefinitions="*,Auto"
-                  RowDefinitions="Auto,Auto,Auto,1,Auto"
-                  RowSpacing="8">
-
-                <Label Grid.Row="0"
-                       Grid.Column="0"
-                       Text="YOUR LOCATION"
-                       FontSize="12"
-                       FontAttributes="Bold"
-                       TextColor="#5C7165"
-                       VerticalOptions="Center" />
-
-                <Button x:Name="RefreshButton"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Text="Refresh"
-                        FontSize="13"
-                        Padding="12,6"
-                        Clicked="OnRefreshClicked"
-                        SemanticProperties.Hint="Refresh your location and local weather" />
-
-                <Label x:Name="StreetLabel"
-                       Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       Text="Finding your location..."
-                       FontSize="20"
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto"
+              Margin="0,0,0,16">
+            <VerticalStackLayout Spacing="4"
+                                 VerticalOptions="Center">
+                <Label Text="HikerAlert"
+                       FontSize="28"
                        FontAttributes="Bold"
                        TextColor="#20352C"
-                       LineBreakMode="WordWrap" />
-
-                <Label x:Name="CoordinatesLabel"
-                       Grid.Row="2"
-                       Grid.ColumnSpan="2"
-                       Text="Waiting for location permission"
-                       FontSize="13"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Explore nearby trails and check the weather"
+                       FontSize="14"
                        TextColor="#607268" />
+            </VerticalStackLayout>
 
-                <BoxView Grid.Row="3"
-                         Grid.ColumnSpan="2"
-                         BackgroundColor="#E5EBE6"
-                         HeightRequest="1" />
+            <Button Grid.Column="1"
+                    Text="Refresh"
+                    Padding="14,8"
+                    VerticalOptions="Center"
+                    BackgroundColor="#DDE9DF"
+                    TextColor="#20352C"
+                    Clicked="OnRefreshClicked"
+                    SemanticProperties.Hint="Refresh weather for all hiking locations" />
+        </Grid>
 
-                <VerticalStackLayout Grid.Row="4"
-                                     Grid.ColumnSpan="2"
-                                     Spacing="2">
-                    <Label Text="CURRENT WEATHER"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="#5C7165" />
-                    <Label x:Name="WeatherLabel"
-                           Text="Loading weather..."
-                           FontSize="17"
-                           TextColor="#20352C" />
-                </VerticalStackLayout>
-            </Grid>
-        </Border>
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding HikingLocations}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="14" />
+            </CollectionView.ItemsLayout>
 
-        <!-- Interactive map panel -->
-        <Border Grid.Row="2"
-                Padding="10"
-                BackgroundColor="White"
-                Stroke="#D7E1D8"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 16">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border BackgroundColor="White"
+                            Stroke="#D7E1D8"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18">
 
-            <Grid RowDefinitions="Auto,*,Auto"
-                  RowSpacing="8">
+                        <Grid RowDefinitions="190,Auto"
+                              RowSpacing="0">
 
-                <Label Grid.Row="0"
-                       Text="INTERACTIVE MAP"
-                       FontSize="12"
-                       FontAttributes="Bold"
-                       TextColor="#5C7165"
-                       SemanticProperties.HeadingLevel="Level2" />
+                            <Image Grid.Row="0"
+                                   Source="{Binding ImageUrl}"
+                                   Aspect="AspectFill"
+                                   SemanticProperties.Description="{Binding Name}" />
 
-                <WebView x:Name="MapWebView"
-                         Grid.Row="1"
-                         MinimumHeightRequest="280"
-                         HorizontalOptions="Fill"
-                         VerticalOptions="Fill"
-                         SemanticProperties.Description="Interactive map showing Auckland and, when available, your current location" />
+                            <VerticalStackLayout Grid.Row="1"
+                                                 Padding="16"
+                                                 Spacing="6">
+                                <Label Text="{Binding Name}"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#20352C" />
 
-                <Label x:Name="MapStatusLabel"
-                       Grid.Row="2"
-                       Text="Map opens at Auckland. Allow location access to show your position."
-                       FontSize="12"
-                       TextColor="#607268"
-                       HorizontalTextAlignment="Center" />
-            </Grid>
-        </Border>
+                                <Label Text="{Binding Location}"
+                                       FontSize="14"
+                                       TextColor="#607268" />
 
-        <!-- SOS Button -->
-        <Button Grid.Row="2"
+                                <BoxView HeightRequest="1"
+                                         Margin="0,6"
+                                         BackgroundColor="#E5EBE6" />
+
+                                <Label Text="CURRENT WEATHER"
+                                       FontSize="11"
+                                       FontAttributes="Bold"
+                                       TextColor="#5C7165" />
+
+                                <Label Text="{Binding WeatherText}"
+                                       FontSize="16"
+                                       TextColor="#20352C" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="1"
                 Text="SOS"
                 WidthRequest="72"
                 HeightRequest="56"
-                Margin="16"
+                Margin="12"
                 Padding="12,6"
                 CornerRadius="28"
                 BackgroundColor="#C62828"

@@ -94,8 +94,4 @@
 	  </MauiXaml>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\src\HikerAlert.Core\HikerAlert.Core.csproj" />
-	</ItemGroup>
-
 </Project>
