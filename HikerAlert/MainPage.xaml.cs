@@ -56,7 +56,7 @@ public partial class MainPage : ContentPage
         }
     }
 
-    private async void OnRefreshClicked(object sender, EventArgs e)
+    private async void OnRefreshClicked(object? sender, EventArgs e)
     {
         await RefreshWeatherAsync();
     }
@@ -147,7 +147,7 @@ public partial class MainPage : ContentPage
         _ => "Current conditions"
     };
 
-    private async void OnSosClicked(object sender, EventArgs e)
+    private async void OnSosClicked(object? sender, EventArgs e)
     {
         var urgency = await DisplayActionSheetAsync(
             "What kind of help do you need?",

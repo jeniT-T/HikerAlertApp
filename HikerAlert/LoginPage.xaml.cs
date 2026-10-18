@@ -8,7 +8,7 @@ public partial class LoginPage : ContentPage
     }
 
     // Matches Clicked="OnSignUpClicked" in XAML
-    private async void OnSignUpClicked(object sender, EventArgs e)
+    private async void OnSignUpClicked(object? sender, EventArgs e)
     {
         try
         {

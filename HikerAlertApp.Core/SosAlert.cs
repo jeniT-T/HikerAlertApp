@@ -10,7 +10,8 @@ public enum EmergencyLevel
 
 public sealed record SosAlertInput(
     EmergencyLevel EmergencyLevel,
-    string? Notes = null);
+    string? Notes = null,
+    string HikerId ="");
 
 public sealed record SosLocation(
     double Latitude,
@@ -20,7 +21,8 @@ public sealed record SosAlert(
     EmergencyLevel EmergencyLevel,
     string? Notes,
     SosLocation Location,
-    DateTimeOffset SentAtUtc);
+    DateTimeOffset SentAtUtc,
+    string HikerId = "");
 
 public interface ILocationProvider
 {

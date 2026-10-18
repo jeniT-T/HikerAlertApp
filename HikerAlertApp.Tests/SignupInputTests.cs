@@ -156,26 +156,53 @@ public class SignupInputTests
         public List<CreatedAccount> CreatedAccounts { get; } = new();
 
         public Task<bool> ExistsAsync(
-            string normalizedEmail,
+            string normalisedEmail,
             CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(_existingEmails.Contains(normalizedEmail));
+            return Task.FromResult(_existingEmails.Contains(normalisedEmail));
         }
 
         public Task CreateAsync(
-            string normalizedEmail,
+            string normalisedEmail,
             string passwordHash,
             CancellationToken cancellationToken = default)
         {
-            _existingEmails.Add(normalizedEmail);
-            CreatedAccounts.Add(new CreatedAccount(normalizedEmail, passwordHash));
+            _existingEmails.Add(normalisedEmail);
+            CreatedAccounts.Add(new CreatedAccount(normalisedEmail, passwordHash));
             return Task.CompletedTask;
+        }
+
+        //Copilot generated code to satisfy IUserAccountStore interface. You can implement these methods as needed for your tests.
+        public Task<UserAccount?> FindAsync(
+            string normalisedEmail,
+            CancellationToken cancellationToken = default)
+        {
+            // Tests don't need a full UserAccount here; return null when not found.
+            // If you need to return an actual UserAccount for other tests, construct one
+            // from CreatedAccounts or adapt this implementation accordingly.
+            if (_existingEmails.Contains(normalisedEmail))
+            {
+                // If a UserAccount type exists in your Core library and you want to return one,
+                // create and return it here. For now return null to keep the test behavior minimal.
+            }
+
+            return Task.FromResult<UserAccount?>(null);
+        }
+
+        // Added to satisfy IUserAccountStore
+        public Task<bool> DeleteAsync(
+            string normalisedEmail,
+            CancellationToken cancellationToken = default)
+        {
+            var removed = _existingEmails.Remove(normalisedEmail);
+            return Task.FromResult(removed);
         }
     }
 
     private sealed class TestPasswordHasher : IPasswordHasher
     {
         public string Hash(string password) => $"hashed:{password}";
+        public bool Verify(string password, string passwordHash) => passwordHash == Hash(password);
     }
 
     private sealed record CreatedAccount(string Email, string PasswordHash);

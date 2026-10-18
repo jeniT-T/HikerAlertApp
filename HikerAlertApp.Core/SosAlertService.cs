@@ -35,6 +35,7 @@ public sealed class SosAlertService
             input.EmergencyLevel,
             input.Notes,
             location,
-            DateTimeOffset.UtcNow);
+            DateTimeOffset.UtcNow,
+            input.HikerId);
     }
 }

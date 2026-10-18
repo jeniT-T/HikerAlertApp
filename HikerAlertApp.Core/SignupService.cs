@@ -1,20 +1,9 @@
 namespace HikerAlertApp.Core;
 
-public interface IUserAccountStore
-{
-    Task<bool> ExistsAsync(
-        string normalizedEmail,
-        CancellationToken cancellationToken = default);
-
-    Task CreateAsync(
-        string normalizedEmail,
-        string passwordHash,
-        CancellationToken cancellationToken = default);
-}
-
 public interface IPasswordHasher
 {
     string Hash(string password);
+    bool Verify(string password, string passwordHash);
 }
 
 public enum SignupStatus
@@ -53,16 +42,16 @@ public sealed class SignupService
             return new SignupResult(SignupStatus.InvalidInput);
         }
 
-        var normalizedEmail = input.Email.Trim().ToUpperInvariant();
+        var normalisedEmail = input.Email.Trim().ToUpperInvariant();
 
-        if (await _accountStore.ExistsAsync(normalizedEmail, cancellationToken))
+        if (await _accountStore.ExistsAsync(normalisedEmail, cancellationToken))
         {
             return new SignupResult(SignupStatus.ExistingEmail);
         }
 
         var passwordHash = _passwordHasher.Hash(input.Password);
         await _accountStore.CreateAsync(
-            normalizedEmail,
+            normalisedEmail,
             passwordHash,
             cancellationToken);
 

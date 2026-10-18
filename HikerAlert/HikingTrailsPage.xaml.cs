@@ -42,7 +42,7 @@ public partial class HikingTrailsPage : ContentPage
         }
     }
 
-    private async void OnRefreshClicked(object sender, EventArgs e)
+    private async void OnRefreshClicked(object? sender, EventArgs e)
     {
         await LoadTrailsAsync();
     }
@@ -278,7 +278,7 @@ public partial class HikingTrailsPage : ContentPage
     private async void OnSosClicked(object sender, EventArgs e)
     {
         // Present a simple choice and confirm the SOS alert.
-        var choice = await DisplayActionSheet(
+        var choice = await DisplayActionSheetAsync(
             "Create SOS alert",
             "Cancel",
             null,
@@ -289,6 +289,6 @@ public partial class HikingTrailsPage : ContentPage
         if (string.IsNullOrEmpty(choice) || choice == "Cancel")
             return;
 
-        await DisplayAlert("SOS", $"SOS alert created: {choice}", "OK");
+        await DisplayAlertAsync("SOS", $"SOS alert created: {choice}", "OK");
     }
 }
