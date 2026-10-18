@@ -12,14 +12,14 @@ public sealed record SosDispatchResult(
 /// </summary>
 public sealed class SosDispatchService
 {
-    private readonly SosAlertService _alertFactory;
+    private readonly SosAlertFactory _alertFactory;
     private readonly ISosAlertQueue _queue;
     private readonly IAlertRelay _relay;
     private readonly IConnectivityProvider _connectivity;
     private readonly IClock _clock;
 
     public SosDispatchService(
-        SosAlertService alertFactory,
+        SosAlertFactory alertFactory,
         ISosAlertQueue queue,
         IAlertRelay relay,
         IConnectivityProvider connectivity,
@@ -31,6 +31,7 @@ public sealed class SosDispatchService
         _connectivity = connectivity ?? throw new ArgumentNullException(nameof(connectivity));
         _clock = clock ?? SystemClock.Instance;
     }
+
 
     public async Task<SosDispatchResult> SubmitAsync(
         SosAlertInput input,

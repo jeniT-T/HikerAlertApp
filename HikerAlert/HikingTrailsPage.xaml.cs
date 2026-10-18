@@ -275,7 +275,7 @@ public partial class HikingTrailsPage : ContentPage
         public int WeatherCode { get; set; }
     }
 
-    private async void OnSosClicked(object sender, EventArgs e)
+    private async void OnSosClicked(object? sender, EventArgs e)
     {
         // Present a simple choice and confirm the SOS alert.
         var choice = await DisplayActionSheetAsync(

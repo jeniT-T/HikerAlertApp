@@ -32,4 +32,5 @@ public sealed class HikerProfileService
     public bool Delete(string normalisedEmail) => _profiles.Remove(normalisedEmail);
 
     public int Count => _profiles.Count;
+
 }

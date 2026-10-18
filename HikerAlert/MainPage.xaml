@@ -24,7 +24,8 @@
                        TextColor="#607268" />
             </VerticalStackLayout>
 
-            <Button Grid.Column="1"
+            <Button x:Name="RefreshButton"
+                    Grid.Column="1"
                     Text="Refresh"
                     Padding="14,8"
                     VerticalOptions="Center"
@@ -88,20 +89,20 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="1"
-                Text="SOS"
-                WidthRequest="72"
-                HeightRequest="56"
-                Margin="12"
-                Padding="12,6"
-                CornerRadius="28"
-                BackgroundColor="#C62828"
-                TextColor="White"
-                FontAttributes="Bold"
-                HorizontalOptions="Start"
-                VerticalOptions="End"
-                ZIndex="10"
-                Clicked="OnSosClicked"
-                SemanticProperties.Hint="Choose an emergency type and create an SOS alert" />
+        <Button Grid.Row="2"
+        Text="SOS"
+        WidthRequest="64"
+        HeightRequest="64"
+        Margin="16"
+        Padding="0"
+        CornerRadius="32"
+        BackgroundColor="#C62828"
+        TextColor="White"
+        FontAttributes="Bold"
+        HorizontalOptions="End"
+        VerticalOptions="End"
+        ZIndex="10"
+        Clicked="OnSosClicked"
+        SemanticProperties.Hint="Choose an emergency type and create an SOS alert" />
     </Grid>
 </ContentPage>

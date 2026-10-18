@@ -1,31 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace HikerAlertApp.Core
+namespace HikerAlertApp.Core;
+
+/// <summary>Abstraction over alert transmission connectivity (NFR01).</summary>
+public interface IConnectivityProvider
 {
-    //Abstraction over alert transmission connectivity. 
-    public interface IConnectivityProvider
-    {
-        bool HasInternetConnection { get; }
-    }
+    bool HasInternetConnection { get; }
+}
 
-    public interface AlertReply
-    {
-        string ChannelName { get; }
-        Task<bool> RelayAsync(SosAlert alert, CancellationToken cancellationToken = default);       
-    }
+/// <summary>A single transmission channel for SOS alerts.</summary>
+public interface IAlertRelay
+{
+    string ChannelName { get; }
 
-    //resolves the ranger service endpoint
-    public interface SosEndpointProvider
-    {
-        Uri?GetEndPoints();
-    }
+    Task<bool> RelayAsync(SosAlert alert, CancellationToken cancellationToken = default);
+}
 
-    //Ranger's speed dial to emeregency services.
-    public interface EmergencyServiceProvider
-    {
-        Task<bool> DialAsync(string dialEmergencyNumber, CancellationToken cancellationToken = default);
-    }
+/// <summary>Resolves the ranger service endpoint (DEF11).</summary>
+public interface ISosEndpointProvider
+{
+    Uri? GetEndpoint();
+}
 
+/// <summary>Speed-dials emergency services through the platform dialer (FR11).</summary>
+public interface IEmergencyDialer
+{
+    Task<bool> DialAsync(string emergencyNumber, CancellationToken cancellationToken = default);
 }

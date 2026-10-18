@@ -1,34 +1,75 @@
-﻿using Microsoft.Maui.Controls.Hosting;
-using Microsoft.Maui.Hosting;
+﻿using HikerAlertApp.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Storage;
 
-namespace HikerAlert
+namespace HikerAlert;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
+        var builder = MauiApp.CreateBuilder();
 
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
 
 #if DEBUG
-            builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
-        }
+        RegisterServices(builder.Services);
+
+        return builder.Build();
     }
 
-    static class Constants
+    private static void RegisterServices(IServiceCollection services)
     {
-        public const string RangerSosEndpoint = "https://your-ranger-api.example/sos";
+        // Platform adapters — the MAUI half of each Core abstraction.
+        services.AddSingleton<IConnectivityProvider, MauiConnectivityProvider>();
+        services.AddSingleton<ILocationProvider, MauiLocationProvider>();
+        services.AddSingleton<IEmergencyDialer, MauiEmergencyDialer>();
+        services.AddSingleton<ISosEndpointProvider, PreferenceSosEndpointProvider>();
+        services.AddSingleton<IClock>(SystemClock.Instance);
+
+        // Persistence — JSON files under the app data directory.
+        var dataDirectory = FileSystem.AppDataDirectory;
+
+        services.AddSingleton<IUserAccountStore>(_ =>
+            new JsonFileUserAccountStore(Path.Combine(dataDirectory, "accounts.json")));
+
+        services.AddSingleton<ISosAlertQueue>(_ =>
+            new JsonFileSosAlertQueue(Path.Combine(dataDirectory, "pending-alerts.json")));
+
+        // Core services.
+        services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
+        services.AddSingleton<LoginAttemptTracker>();
+        services.AddSingleton<HikerProfileService>();
+        services.AddSingleton<SignupService>();
+        services.AddSingleton<AuthenticationService>();
+        services.AddSingleton<AccountDeletionService>();
+        services.AddSingleton<SosAlertFactory>();
+        services.AddSingleton<SosDispatchService>();
+        services.AddSingleton<RangerService>();
+
+        // Relay chain (FR09): HTTPS first, then simulated Bluetooth.
+        services.AddSingleton<HttpAlertRelay>();
+        services.AddSingleton<SimulatedBluetoothRelay>();
+        services.AddSingleton<IAlertRelay>(provider => new CompositeAlertRelay(
+            provider.GetRequiredService<HttpAlertRelay>(),
+            provider.GetRequiredService<SimulatedBluetoothRelay>()));
+
+        services.AddSingleton(new HttpClient { Timeout = TimeSpan.FromSeconds(15) });
+
+        // Pages.
+        services.AddTransient<LoginPage>();
+        services.AddTransient<SignUpPage>();
+        services.AddTransient<MainPage>();
+        services.AddTransient<HikingTrailsPage>();
+        services.AddTransient<ToolsPage>();
     }
 }

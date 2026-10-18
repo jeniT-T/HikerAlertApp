@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using HikerAlertApp.Core;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Net.Http.Json;
@@ -16,6 +17,7 @@ public partial class MainPage : ContentPage
 
     private bool _hasLoadedWeather;
     private bool _isRefreshing;
+    private readonly SosDispatchService _dispatchService;
 
     public ObservableCollection<HikingLocation> HikingLocations { get; } = new()
     {
@@ -39,10 +41,11 @@ public partial class MainPage : ContentPage
             -36.8600, 174.7700, "auckland_domain.jpg")
     };
 
-    public MainPage()
+    public MainPage(SosDispatchService dispatchService)
     {
         InitializeComponent();
         BindingContext = this;
+        _dispatchService = dispatchService;
     }
 
     protected override async void OnAppearing()
@@ -183,20 +186,21 @@ public partial class MainPage : ContentPage
 
         try
         {
-            var sent = await SosAlertService.SubmitAsync(urgency);
+            var input = new SosAlertInput(MapToEmergencyLevel(urgency), urgency);
+            var result = await _dispatchService.SubmitAsync(input);
 
             await DisplayAlertAsync(
-                sent ? "SOS sent" : "SOS saved on this device",
-                sent
-                    ? "The ranger service accepted the alert."
-                    : "Delivery has not been confirmed. The alert is queued on this device and will retry when connectivity returns.",
-                "OK");
+               result.DeliveredImmediately ? "SOS sent" : "SOS saved on this device",
+               result.DeliveredImmediately
+                   ? "The ranger service accepted the alert."
+                   : "Delivery has not been confirmed. The alert is queued on this device and will retry when connectivity returns.",
+               "OK");
         }
-        catch
+        catch (Exception ex)
         {
             await DisplayAlertAsync(
                 "SOS could not be saved",
-                "The alert was not saved. Try again if it is safe to do so.",
+                $"The alert was not saved ({ex.GetType().Name}). Try again if it is safe to do so.",
                 "OK");
         }
         finally
@@ -207,6 +211,15 @@ public partial class MainPage : ContentPage
             }
         }
     }
+
+    private static EmergencyLevel MapToEmergencyLevel(string urgency) => urgency switch
+    {
+        "Lost" => EmergencyLevel.High,
+        "Medical emergency" => EmergencyLevel.Critical,
+        "Police assistance" => EmergencyLevel.High,
+        "Injured / unable to walk" => EmergencyLevel.Critical,
+        _ => EmergencyLevel.Moderate
+    };
 
     public sealed class HikingLocation : INotifyPropertyChanged
     {

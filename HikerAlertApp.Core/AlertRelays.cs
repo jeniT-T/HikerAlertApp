@@ -2,7 +2,7 @@
 
 namespace HikerAlertApp.Core;
 
-/// <summary>Posts alerts to the ranger service over HTTPS. Fixes DEF11.</summary>
+//Posts alerts to the ranger service over HTTPS.
 public sealed class HttpAlertRelay : IAlertRelay
 {
     private readonly HttpClient _httpClient;

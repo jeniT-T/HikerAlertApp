@@ -6,13 +6,11 @@
              Title="LoginPage">
 
     <Grid>
-        <!--The background of the login page-->
         <Image Source="cosmos_1037624851.jpeg"
                Aspect="AspectFill"
                Opacity="0.5"
                HorizontalOptions="Fill"
-               VerticalOptions="Fill"
-               />
+               VerticalOptions="Fill" />
 
         <VerticalStackLayout Spacing="25"
                              Padding="30,0"
@@ -22,82 +20,70 @@
                 <Label Text="Welcome to HikerAlert"
                        TextColor="#e44d2e"
                        FontSize="30"
-                       HorizontalOptions="Center">
-                </Label>
+                       HorizontalOptions="Center" />
                 <Label Text="Log in to your account"
                        TextColor="#f3e5ab"
                        FontSize="22"
-                       HorizontalOptions="Center">
-
-                </Label>
+                       HorizontalOptions="Center" />
             </VerticalStackLayout>
+
             <StackLayout Spacing="20">
-                
-                <!--The border box for the email-->
-                <Border Padding="15,0" 
-                        Margin="0,0,0,0" 
-                        Stroke="#fff6d6" 
+
+                <Border Padding="15,0"
+                        Stroke="#fff6d6"
                         HeightRequest="50"
                         HorizontalOptions="Fill"
                         StrokeThickness="1"
                         StrokeShape="RoundRectangle 10">
-                    <Entry Placeholder="Email"
-                           PlaceholderColor="white"
+                    <Entry x:Name="EmailEntry"
+                           Placeholder="Email"
+                           PlaceholderColor="White"
                            HorizontalOptions="Fill"
                            VerticalOptions="Center"
                            Keyboard="Email"
-                           TextColor="#f3e5ab"
-                           ></Entry>
-
+                           TextColor="#f3e5ab" />
                 </Border>
 
-                <!--The border box for the password-->
-                <Border Padding="15,0" 
-                    Margin="0,0,0,0" 
-                    Stroke="#fff6d6" 
-                    HeightRequest="50"
-                    HorizontalOptions="Fill"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 10">
-                        <Entry Placeholder="Password"
-                               PlaceholderColor="White"
-                               HorizontalOptions="Fill"
-                               VerticalOptions="Center"
-                               Keyboard="Text"
-                               IsPassword="True"
-                               TextColor="#f3e5ab"
-                         ></Entry>
+                <Border Padding="15,0"
+                        Stroke="#fff6d6"
+                        HeightRequest="50"
+                        HorizontalOptions="Fill"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 10">
+                    <Entry x:Name="PasswordEntry"
+                           Placeholder="Password"
+                           PlaceholderColor="White"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center"
+                           Keyboard="Text"
+                           IsPassword="True"
+                           TextColor="#f3e5ab" />
                 </Border>
 
                 <Button Text="Log In"
                         FontSize="20"
-                        Margin="0, 10, 0, 0"
+                        Margin="0,10,0,0"
                         HeightRequest="50"
                         WidthRequest="250"
                         CornerRadius="25"
                         TextColor="#f3e5ab"
                         BackgroundColor="#e44d2e"
-                        Clicked="OnLoginClick"
-                        >
-                </Button>
+                        Clicked="OnLoginClick" />
 
-                <Button BackgroundColor="Transparent" 
+                <Button BackgroundColor="Transparent"
                         Text="Forgot Password"
-                        TextColor="Coral"></Button>
+                        TextColor="Coral" />
 
                 <HorizontalStackLayout HorizontalOptions="Center"
-                                     Spacing="5"
-                                     >
-                    <Label Text="Don't have an account? " 
+                                       Spacing="5">
+                    <Label Text="Don't have an account? "
                            TextColor="LightGray"
-                           VerticalOptions="Center">
-                    </Label>
-                    <Button Text="Sign Up" 
+                           VerticalOptions="Center" />
+                    <Button Text="Sign Up"
                             BackgroundColor="Transparent"
                             TextColor="White"
                             FontAttributes="Bold"
-                            Clicked="OnSignUpClicked"></Button>
-                      
+                            Clicked="OnSignUpClicked" />
                 </HorizontalStackLayout>
 
             </StackLayout>
