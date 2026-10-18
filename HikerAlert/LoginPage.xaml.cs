@@ -1,29 +1,32 @@
+using HikerAlertApp.Core;
+
 namespace HikerAlert;
 
 public partial class LoginPage : ContentPage
 {
-    public LoginPage()
+    private readonly AuthenticationService _authenticationService;
+
+    public LoginPage(AuthenticationService authenticationService)
     {
         InitializeComponent();
+        _authenticationService = authenticationService;
     }
 
-    // Matches Clicked="OnSignUpClicked" in XAML
-    private async void OnSignUpClicked(object sender, EventArgs e)
+    private async void OnLoginClick(object? sender, EventArgs e)
     {
-        try
+        var result = await _authenticationService.LoginAsync(
+            EmailEntry.Text,
+            PasswordEntry.Text);
+
+        if (!result.Succeeded)
         {
-            await Shell.Current.GoToAsync(nameof(SignUpPage));
+            await DisplayAlertAsync("Sign in failed", result.Message, "OK");
+            return;
         }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", ex.Message, "OK");
-        }
+
+        await Shell.Current.GoToAsync("//MainPage");
     }
 
-    // Matches Clicked="OnLoginClick" in XAML
-    private async void OnLoginClick(object sender, EventArgs e)
-    {
-        // Use // to go to the root of the app (Home)
-        await Shell.Current.GoToAsync("MainPage");
-    }
+    private async void OnSignUpClicked(object? sender, EventArgs e)
+        => await Shell.Current.GoToAsync(nameof(SignUpPage));
 }

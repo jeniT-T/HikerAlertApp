@@ -4,12 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace HikerAlertApp.Tests;
 
 [TestClass]
-public class SosAlertServiceTests
+public class SosAlertFactoryTests
 {
     
     [TestMethod]
     public async Task PrepareAndSend_SavesLocationShowsDetailsAndSendsAfterCountdown()
     {
+<<<<<<< HEAD:HikerAlertApp.Tests/SosAlertServiceTests.cs
         var harness = CreateHarness(new ImmediateCountdownDelay());
         var alert = await harness.Service.PrepareAsync(
             EmergencyLevel.Injured,
@@ -28,11 +29,30 @@ public class SosAlertServiceTests
             countdown.Values.ToArray());
         Assert.AreEqual(1, harness.Sender.SentAlerts.Count);
         Assert.AreEqual(alert, harness.Sender.SentAlerts[0]);
+=======
+        var location = new SosLocation(47.6062, -122.3321);
+        var locationProvider = new TestLocationProvider(location);
+        var factory = new SosAlertFactory(locationProvider);
+        var input = new SosAlertInput(EmergencyLevel.High, "Injured ankle on the trail");
+        var beforeCreation = DateTimeOffset.UtcNow;
+
+        var alert = await factory.CreateAsync(input);
+
+        Assert.AreEqual(input.EmergencyLevel, alert.EmergencyLevel);
+        Assert.AreEqual(input.Notes, alert.Notes);
+        Assert.AreEqual(location, alert.Location);
+        Assert.AreEqual(1, locationProvider.CallCount);
+        Assert.AreEqual(TimeSpan.Zero, alert.SentAtUtc.Offset);
+        //Suggested to use IsGreaterThanOrEqualTo to avoid race conditions in the test
+        Assert.IsGreaterThan(beforeCreation, alert.SentAtUtc);
+        Assert.IsLessThan(DateTimeOffset.UtcNow, alert.SentAtUtc);
+>>>>>>> homepage:HikerAlertApp.Tests/SosAlertFactoryTests.cs
     }
 
     [TestMethod]
     public async Task SendAfterCountdown_WhenUserCancels_DoesNotSendAlert()
     {
+<<<<<<< HEAD:HikerAlertApp.Tests/SosAlertServiceTests.cs
         var delay = new BlockingCountdownDelay();
         var harness = CreateHarness(delay);
         var alert = await harness.Service.PrepareAsync(
@@ -43,6 +63,14 @@ public class SosAlertServiceTests
         var sendTask = harness.Service.SendAfterCountdownAsync(
             alert,
             cancellationToken: cancellation.Token);
+=======
+        var locationProvider = new TestLocationProvider(new SosLocation(47.6062, -122.3321));
+        var factory = new SosAlertFactory(locationProvider);
+        var input = new SosAlertInput((EmergencyLevel)999, "Emergency notes");
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(
+            () => factory   .CreateAsync(input));
+>>>>>>> homepage:HikerAlertApp.Tests/SosAlertFactoryTests.cs
 
         // Wait until the countdown has started, then simulate tapping Cancel.
         await delay.DelayStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
@@ -55,6 +83,7 @@ public class SosAlertServiceTests
 
     private static TestHarness CreateHarness(ISosCountdownDelay delay)
     {
+<<<<<<< HEAD:HikerAlertApp.Tests/SosAlertServiceTests.cs
         var location = new Location(
             47.6062,
             -122.3321,
@@ -68,6 +97,14 @@ public class SosAlertServiceTests
             new StubWeatherProvider(),
             sender,
             delay);
+=======
+        var location = new SosLocation(47.6062, -122.3321);
+        var locationProvider = new TestLocationProvider(location);
+        var factory = new SosAlertFactory(locationProvider);
+        var input = new SosAlertInput(EmergencyLevel.High);
+
+        var alert = await factory.CreateAsync(input);
+>>>>>>> homepage:HikerAlertApp.Tests/SosAlertFactoryTests.cs
 
         return new TestHarness(service, locationStore, sender);
     }

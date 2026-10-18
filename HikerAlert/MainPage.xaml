@@ -1,9 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="HikerAlert.MainPage">
+             x:Class="HikerAlert.MainPage"
+             Title="HikerAlert"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F3F6F2">
 
-    <Label Text="Hello World"></Label>
-    
+    <Grid RowDefinitions="Auto,*"
+          Padding="20,16">
 
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,Auto"
+              Margin="0,0,0,16">
+            <VerticalStackLayout Spacing="4"
+                                 VerticalOptions="Center">
+                <Label Text="HikerAlert"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="#20352C"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Explore nearby trails and check the weather"
+                       FontSize="14"
+                       TextColor="#607268" />
+            </VerticalStackLayout>
+
+            <Button x:Name="RefreshButton"
+                    Grid.Column="1"
+                    Text="Refresh"
+                    Padding="14,8"
+                    VerticalOptions="Center"
+                    BackgroundColor="#DDE9DF"
+                    TextColor="#20352C"
+                    Clicked="OnRefreshClicked"
+                    SemanticProperties.Hint="Refresh weather for all hiking locations" />
+        </Grid>
+
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding HikingLocations}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="14" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border BackgroundColor="White"
+                            Stroke="#D7E1D8"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 18">
+
+                        <Grid RowDefinitions="190,Auto"
+                              RowSpacing="0">
+
+                            <Image Grid.Row="0"
+                                   Source="{Binding ImageUrl}"
+                                   Aspect="AspectFill"
+                                   SemanticProperties.Description="{Binding Name}" />
+
+                            <VerticalStackLayout Grid.Row="1"
+                                                 Padding="16"
+                                                 Spacing="6">
+                                <Label Text="{Binding Name}"
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="#20352C" />
+
+                                <Label Text="{Binding Location}"
+                                       FontSize="14"
+                                       TextColor="#607268" />
+
+                                <BoxView HeightRequest="1"
+                                         Margin="0,6"
+                                         BackgroundColor="#E5EBE6" />
+
+                                <Label Text="CURRENT WEATHER"
+                                       FontSize="11"
+                                       FontAttributes="Bold"
+                                       TextColor="#5C7165" />
+
+                                <Label Text="{Binding WeatherText}"
+                                       FontSize="16"
+                                       TextColor="#20352C" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2"
+        Text="SOS"
+        WidthRequest="64"
+        HeightRequest="64"
+        Margin="16"
+        Padding="0"
+        CornerRadius="32"
+        BackgroundColor="#C62828"
+        TextColor="White"
+        FontAttributes="Bold"
+        HorizontalOptions="End"
+        VerticalOptions="End"
+        ZIndex="10"
+        Clicked="OnSosClicked"
+        SemanticProperties.Hint="Choose an emergency type and create an SOS alert" />
+    </Grid>
 </ContentPage>
