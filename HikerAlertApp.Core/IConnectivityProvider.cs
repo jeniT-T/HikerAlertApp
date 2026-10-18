@@ -2,13 +2,13 @@
 
 namespace HikerAlertApp.Core;
 
-/// <summary>Abstraction over alert transmission connectivity (NFR01).</summary>
+/// Abstraction over alert transmission connectivity (NFR01).
 public interface IConnectivityProvider
 {
     bool HasInternetConnection { get; }
 }
 
-/// <summary>A single transmission channel for SOS alerts.</summary>
+/// A single transmission channel for SOS alerts.
 public interface IAlertRelay
 {
     string ChannelName { get; }
@@ -16,13 +16,13 @@ public interface IAlertRelay
     Task<bool> RelayAsync(SosAlert alert, CancellationToken cancellationToken = default);
 }
 
-/// <summary>Resolves the ranger service endpoint (DEF11).</summary>
+///Resolves the ranger service endpoint 
 public interface ISosEndpointProvider
 {
     Uri? GetEndpoint();
 }
 
-/// <summary>Speed-dials emergency services through the platform dialer (FR11).</summary>
+/// Speed-dials emergency services through the platform dialer
 public interface IEmergencyDialer
 {
     Task<bool> DialAsync(string emergencyNumber, CancellationToken cancellationToken = default);

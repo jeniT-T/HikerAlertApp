@@ -37,11 +37,10 @@ public sealed class HttpAlertRelay : IAlertRelay
     }
 }
 
-/// <summary>
-/// Simulated device-to-device relay for FR09. The platform Bluetooth radio is not
+///The platform Bluetooth radio is not
 /// exercised; peers are registered in memory so the relay path can be demonstrated
 /// and tested without hardware.
-/// </summary>
+
 public sealed class SimulatedBluetoothRelay : IAlertRelay
 {
     private readonly List<Action<SosAlert>> _peers = [];

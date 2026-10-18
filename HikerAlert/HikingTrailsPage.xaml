@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HikerAlert.HikingTrailsPage"
              Title="Nearby Trails"
+              Shell.NavBarIsVisible="False"
              BackgroundColor="#F3F6F2">
 
     <!-- Move Padding off the Page (removed in newer MAUI versions) -->
