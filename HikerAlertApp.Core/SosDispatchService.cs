@@ -6,9 +6,10 @@ public sealed record SosDispatchResult(
     bool QueuedForRetry,
     string Channel);
 
-
-/// create the alert, queue it, attempt delivery,and leave it queued when offline 
-
+/// <summary>
+/// Orchestrates FR03 and FR09: create the alert, queue it, attempt delivery,
+/// and leave it queued when offline (NFR01).
+/// </summary>
 public sealed class SosDispatchService
 {
     private readonly SosAlertFactory _alertFactory;
@@ -60,7 +61,7 @@ public sealed class SosDispatchService
             Channel: delivered ? _relay.ChannelName : "queued-on-device");
     }
 
-    /// retries every queued alert. Called when connectivity is restored
+    /// <summary>Retries every queued alert. Called when connectivity is restored.</summary>
     public async Task<int> FlushPendingAsync(CancellationToken cancellationToken = default)
     {
         if (!_connectivity.HasInternetConnection)

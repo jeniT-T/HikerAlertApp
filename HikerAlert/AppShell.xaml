@@ -30,11 +30,5 @@
             Title="Tools"
             Route="ToolsPage"
             ContentTemplate="{DataTemplate local:ToolsPage}" />
-
-        <ShellContent
-            Title="Settings"
-            Route="Settings"
-            ContentTemplate="{DataTemplate local:SettingsPage}"
-            />
     </TabBar>
 </Shell>
